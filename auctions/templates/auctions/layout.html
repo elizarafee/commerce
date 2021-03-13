@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="container-fluid row align-items-center justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-10 mt-3">
                 <h1>Auctions</h1>
                 <div>
                     {% if user.is_authenticated %}
@@ -24,7 +24,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'auctions:createListing' %}">Create Listing</a>
+                            <a class="nav-link" href="{% url 'auctions:createListing' user.username %}">Create Listing</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'auctions:logout' %}">Log Out</a>

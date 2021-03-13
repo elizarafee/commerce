@@ -1,7 +1,36 @@
-{% extends "auctions/layout.html" %}
-
+{% extends "auctions/layout.html" %} 
 {% block body %}
-    <h2>Active Listings</h2>
 
-    TODO
-{% endblock %}
+<h2>Active Listings</h2>
+{% if listingDatas %}
+<div class="row new-added-listing mb-2">
+  <div class="col-lg-3"><img src="static/auctions/images/listingDatas.image.url"></div>
+  <div class="col-lg-2">
+    <ul>
+      <li>Title : {{ listingDatas.title }}</li>
+      <li>Description: {{ listingDatas.description }}</li>
+      <li>Price: {{ listingDatas.starting_bid }}</li>
+      <li>Category: {{ listingDatas.category }}</li>
+      <li>Listed By : {{ user }}</li>
+    </ul>
+  </div>
+</div>
+
+{% endif %} {% if auctions %} {% for auction in auctions %}
+<div class="row mb-2">
+  <div class="col-lg-3"><img src="static/auctions/images/auction.image.url"></div>
+  <div class="col-lg-2">
+    <ul>
+      <li>Title : {{ auction.title }}</li>
+      <li>Description: {{ auction.description }}</li>
+      <li>Price: {{ auction.starting_bid }}</li>
+      <li>Category: {{ auction.category }}</li>
+      <li>Listed By : {{ user }}</li>
+    </ul>
+  </div>
+</div>
+{% endfor %} {% else %}
+<ul>
+  <li>No available Listing!</li>
+</ul>
+{% endif %} {% endblock %}

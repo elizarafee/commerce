@@ -1,3 +1,7 @@
 body {
     padding: 10px;
 }
+
+.new-added-listing {
+    border: 1px solid saddlebrown;
+}

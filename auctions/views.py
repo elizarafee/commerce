@@ -3,12 +3,15 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django import forms
+from .forms import ListingForm
 
 from .models import User, Listing
 
-
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, 'auctions/index.html', {
+        'auctions': Listing.objects.all()
+    })
 
 
 def login_view(request):
@@ -62,24 +65,19 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-def create_listing(request):
+def create_listing(request, username):
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        starting_bid = request.POST["starting_bid"]
-        image = request.POST["image"]
-        category = request.POST["category"]
+        listingForm = ListingForm(request.POST,  request.FILES)
 
-
-        # Attempt to create new listing
-        try:
-            user = User.objects.create_user(username, email, password)
-            user.save()
-        except IntegrityError:
-            return render(request, "auctions/register.html", {
-                "message": "Username already taken."
+        if listingForm.is_valid():
+            listingForm = listingForm.save()
+            return render(request, 'auctions/index.html', {
+                'username': username,
+                'listingDatas': listingForm,
+                'auctions': Listing.objects.all()
             })
-        login(request, user)
-        return HttpResponseRedirect(reverse("auctions:index"))
-    else:
-        return render(request, "auctions/create-listing.html")
+
+    return render(request, "auctions/create-listing.html", {
+        'username' : username,
+        'listingForm' : ListingForm()
+    })
