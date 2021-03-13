@@ -4,7 +4,7 @@
 <h2>Active Listings</h2>
 {% if listingDatas %}
 <div class="row new-added-listing mb-2">
-  <div class="col-lg-3"><img src="static/auctions/images/listingDatas.image.url"></div>
+  <div class="col-lg-2"><img src="static/auctions/images/{{listingDatas.image}}" class="image-style"> </div>
   <div class="col-lg-2">
     <ul>
       <li>Title : {{ listingDatas.title }}</li>
@@ -18,7 +18,7 @@
 
 {% endif %} {% if auctions %} {% for auction in auctions %}
 <div class="row mb-2">
-  <div class="col-lg-3"><img src="static/auctions/images/auction.image.url"></div>
+  <div class="col-lg-2"><img src="static/auctions/images/{{auction.image}}" class="image-style"></div>
   <div class="col-lg-2">
     <ul>
       <li>Title : {{ auction.title }}</li>

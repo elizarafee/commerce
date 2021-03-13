@@ -5,3 +5,8 @@ body {
 .new-added-listing {
     border: 1px solid saddlebrown;
 }
+
+.image-style {
+    height: 200px;
+    width: 200px;   
+}
