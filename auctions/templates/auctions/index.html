@@ -16,7 +16,9 @@
   </div>
 </div>
 
-{% endif %} {% if auctions %} {% for auction in auctions %}
+{% endif %} 
+{% if auctions %} 
+{% for auction in auctions %}
 <div class="row mb-2">
   <div class="col-lg-2"><img src="static/auctions/images/{{auction.image}}" class="image-style"></div>
   <div class="col-lg-2">
@@ -29,8 +31,10 @@
     </ul>
   </div>
 </div>
-{% endfor %} {% else %}
+{% endfor %} 
+{% else %}
 <ul>
   <li>No available Listing!</li>
 </ul>
-{% endif %} {% endblock %}
+{% endif %} 
+{% endblock %}

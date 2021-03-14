@@ -70,10 +70,9 @@ def create_listing(request, username):
         listingForm = ListingForm(request.POST,  request.FILES)
 
         if listingForm.is_valid():
-            listingForm = listingForm.save()
+            listingDatas = listingForm.save()
             return render(request, 'auctions/index.html', {
-                'username': username,
-                'listingDatas': listingForm,
+                'listingDatas': listingDatas,
                 'auctions': Listing.objects.all()
             })
 
