@@ -1,40 +1,29 @@
-{% extends "auctions/layout.html" %} 
-{% block body %}
-<h2>User : {{ user.username }}</h2>
+{% extends "auctions/layout.html" %} {% block body %}
 <h2>Active Listings</h2>
-{% if listingDatas %}
-<div class="row new-added-listing mb-2">
-  <div class="col-lg-2"><img src="static/auctions/images/{{listingDatas.image}}" class="image-style"> </div>
-  <div class="col-lg-2">
-    <ul>
-      <li>Title : {{ listingDatas.title }}</li>
-      <li>Description: {{ listingDatas.description }}</li>
-      <li>Price: {{ listingDatas.starting_bid }}</li>
-      <li>Category: {{ listingDatas.category }}</li>
-      <li>Listed By : {{ listingDatas.listed_by }}</li>
-    </ul>
-  </div>
-</div>
 
-{% endif %} 
-{% if auctions %} 
-{% for auction in auctions %}
-<div class="row mb-2">
-  <div class="col-lg-2"><img src="static/auctions/images/{{auction.image}}" class="image-style"></div>
-  <div class="col-lg-2">
-    <ul>
-      <li>Title : {{ auction.title }}</li>
-      <li>Description: {{ auction.description }}</li>
-      <li>Price: {{ auction.starting_bid }}</li>
-      <li>Category: {{ auction.category }}</li>
-      <li>Listed By : {{ auction.listed_by }}</li>
-    </ul>
+{% if message %}
+  {{ message }}
+{% endif %}
+
+{% if listings %}
+{% for listing in listings %}
+<a href="{% url 'auctions:listingDetails' listing.id %}">
+  <div class="row mb-2">
+    <div class="col-lg-2">
+      <img src="{{ listing.image.url }}" class="image-style" />
+    </div>
+    <div class="col-lg-3">
+      <ul>
+        <li>Title : {{ listing.title }}</li>
+        <li>Description: {{ listing.description }}</li>
+        <li>Price: {{ listing.starting_bid }}</li>
+        <li>Category: {{ listing.category }}</li>
+      </ul>
+    </div>
   </div>
-</div>
-{% endfor %} 
-{% else %}
+</a>
+{% endfor %} {% else %}
 <ul>
   <li>No available Listing!</li>
 </ul>
-{% endif %} 
-{% endblock %}
+{% endif %} {% endblock %}

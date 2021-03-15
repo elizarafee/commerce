@@ -10,7 +10,7 @@ from .models import User, Listing
 
 def index(request):
     return render(request, 'auctions/index.html', {
-        'auctions': Listing.objects.all()
+        'listings': Listing.objects.all()
     })
 
 
@@ -70,14 +70,22 @@ def create_listing(request):
         listingForm = ListingForm(request.POST,  request.FILES)
 
         if listingForm.is_valid():
-            Listing.objects.find(listed_by=User.username)
-            listingDatas = listingForm.save()
+            listingForm = listingForm.save()
             return render(request, 'auctions/index.html', {
-                'listingDatas': listingDatas,
-                'auctions': Listing.objects.all()
+                'message': 'New Listing Is Created, and listed at the end of the list!!!',
+                'listingForm': listingForm,
+                'listings': Listing.objects.all()
             })
 
     return render(request, "auctions/create-listing.html", {
         'username' : User.username,
         'listingForm' : ListingForm()
     })
+
+def listing_details(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    return render(request, "auctions/listing-details.html", {
+        'listing': listing,
+        'image': listing.image
+    })
+
