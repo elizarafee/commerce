@@ -24,7 +24,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'auctions:createListing' user.username %}">Create Listing</a>
+                            <a class="nav-link" href="{% url 'auctions:createListing' %}">Create Listing</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'auctions:logout' %}">Log Out</a>

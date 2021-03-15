@@ -65,11 +65,12 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-def create_listing(request, username):
+def create_listing(request):
     if request.method == "POST":
         listingForm = ListingForm(request.POST,  request.FILES)
 
         if listingForm.is_valid():
+            Listing.objects.find(listed_by=User.username)
             listingDatas = listingForm.save()
             return render(request, 'auctions/index.html', {
                 'listingDatas': listingDatas,
@@ -77,6 +78,6 @@ def create_listing(request, username):
             })
 
     return render(request, "auctions/create-listing.html", {
-        'username' : username,
+        'username' : User.username,
         'listingForm' : ListingForm()
     })

@@ -1,6 +1,6 @@
 {% extends "auctions/layout.html" %} 
 {% block body %}
-
+<h2>User : {{ user.username }}</h2>
 <h2>Active Listings</h2>
 {% if listingDatas %}
 <div class="row new-added-listing mb-2">
@@ -11,7 +11,7 @@
       <li>Description: {{ listingDatas.description }}</li>
       <li>Price: {{ listingDatas.starting_bid }}</li>
       <li>Category: {{ listingDatas.category }}</li>
-      <li>Listed By : {{ user }}</li>
+      <li>Listed By : {{ listingDatas.listed_by }}</li>
     </ul>
   </div>
 </div>
@@ -27,7 +27,7 @@
       <li>Description: {{ auction.description }}</li>
       <li>Price: {{ auction.starting_bid }}</li>
       <li>Category: {{ auction.category }}</li>
-      <li>Listed By : {{ user }}</li>
+      <li>Listed By : {{ auction.listed_by }}</li>
     </ul>
   </div>
 </div>

@@ -5,4 +5,5 @@ from .models import Listing
 class ListingForm(ModelForm):
    class Meta:
        model = Listing
+    #    form['listed_by'].widget.attrs['readonly'] = True
        fields = '__all__'

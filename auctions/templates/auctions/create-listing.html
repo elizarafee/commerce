@@ -2,13 +2,10 @@
 
 
 {% block body %}
-<!-- <div class="container-fluid"></div> -->
-  <!-- <div class="row align-items-center justify-content-center"> -->
     <h2>Add A New Listing:</h2>
-  <!-- </div> -->
 
-  <form action="{% url 'auctions:createListing' username %}" method="POST" enctype="multipart/form-data">
-    <h2>User : {{ username }}</h2>
+  <form action="{% url 'auctions:createListing' %}" method="POST" enctype="multipart/form-data">
+    <h2>User : {{ user.username }}</h2>
       {% csrf_token %}
       {{ listingForm }}
       <input type="submit" />
