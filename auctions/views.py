@@ -99,8 +99,25 @@ def watchlist(request):
         'watchlistslistings': watchlist.listings.all()
     })
 
-def add_watchlist(request, listing_id):
-  
 
-def remove_watchlist(request, listing_id):
+def lastPK(obj):
+    length = len(obj.objects.all())+1
+    return length
+
+def add_watchlist(request, listing_id):
+    if Watchlist.objects.filter(user=request.user).exists():
+        watchlist = Watchlist.objects.get(user=request.user)
+    else:
+        watchlist = Watchlist(id = lastPk(Watchlist),user = request.user)
+        
+    watchlist.save()
+    listing = Listing.objects.get(id=listing_id)
+    watchlist.listings.add(listing)
+    watchlist.save()
+
+    return render(request, "auctions/watchlist.html",{
+        "watchlists" : watchlist.listings.all()
+    })
+
+# def remove_watchlist(request, listing_id):
     
