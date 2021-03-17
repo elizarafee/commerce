@@ -6,7 +6,10 @@ from django.urls import reverse
 from django import forms
 from .forms import ListingForm
 
-from .models import User, Listing
+from .models import User, Listing, Watchlist
+
+class CreateWatchlistForm(forms.Form):
+    entryTitle = forms.CharField(label="Title:", widget=forms.TextInput(attrs={'placeholder': "Title of the entry's page"}))
 
 def index(request):
     return render(request, 'auctions/index.html', {
@@ -89,3 +92,15 @@ def listing_details(request, listing_id):
         'image': listing.image
     })
 
+def watchlist(request):
+    watchlist = Watchlist.objects.get(user = request.user)
+
+    return render(request, "actions/watchlist", {
+        'watchlistslistings': watchlist.listings.all()
+    })
+
+def add_watchlist(request, listing_id):
+  
+
+def remove_watchlist(request, listing_id):
+    

@@ -15,5 +15,10 @@ class Listing(models.Model):
     def __str__(self):
         return f"Title: {self.title}, Description: {self.description}, Price: {self.starting_bid}, Image: {self.image}, Category: {self.category}"
 
-# class WatchlistModel(models.Model):
-#     uesrname = models.foreignkey(User,  on_delete=models.CASCADE, )
+
+class Watchlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    listings = models.ManyToManyField(Listing, blank=True, related_name="listings")
+    
+    def __str__(self):
+        return f"Title: {self.title}, Description: {self.description}"

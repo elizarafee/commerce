@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %} {% block body %}
+
+<h1>Watchlist of : {{ user.username }}</h1>
+{% for watchlistslisting in watchlistslistings %}
+<div class="row new-added-listing">
+  <div class="col-lg-2">
+    <img src="{{ watchlistslisting.image.url }}" class="image-style" />
+  </div>
+  <div class="col-lg-3">
+    <ul>
+      <li>Title: {{watchlistslisting.title}}</li>
+      <li>Description: {{watchlistslisting.description}}</li>
+      <li>Starting Bid: {{watchlistslisting.starting_bid}}</li>
+      <li>Category: {{watchlistlisting.category}}</li>
+    </ul>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

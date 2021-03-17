@@ -1,7 +1,8 @@
 {% extends "auctions/layout.html" %} {% block body %}
 <h1>
   Listing Details
-  <button class="float-right btn btn-outline-success btn-sm">Add to Watchlist
+  {% if user.is_authenticated %}
+  <a href="{% url 'auctions:addWatchlist' listing.id %}" class="float-right btn btn-outline-success btn-sm">Add to Watchlist
     <span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +18,8 @@
         />
       </svg>
     </span>
-  </button>
+  </a>
+  {% endif %}
 </h1>
 <div class="row new-added-listing mb-2">
   <div class="col-lg-2">
