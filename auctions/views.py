@@ -95,8 +95,8 @@ def listing_details(request, listing_id):
 def watchlist(request):
     watchlist = Watchlist.objects.get(user = request.user)
 
-    return render(request, "actions/watchlist", {
-        'watchlistslistings': watchlist.listings.all()
+    return render(request, "auctions/watchlist.html", {
+        'watchlists': watchlist.listings.all()
     })
 
 
@@ -119,5 +119,10 @@ def add_watchlist(request, listing_id):
         "watchlists" : watchlist.listings.all()
     })
 
-# def remove_watchlist(request, listing_id):
+def remove_watchlist(request, listing_id):
+    watchlist = Watchlist.objects.get(user=request.user)
+    listing = Listing.objects.get(id=listing_id)
+    watchlist.listings.remove(listing)
+
+    return HttpResponseRedirect(reverse("auctions:watchlist"))
     

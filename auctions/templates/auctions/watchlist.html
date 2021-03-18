@@ -1,8 +1,10 @@
 {% extends "auctions/layout.html" %} {% block body %}
 
 <h1>Watchlist of : {{ user.username }}</h1>
+{% if watchlists %}
 {% for watchlist in watchlists %}
-<div class="row new-added-listing">
+<a href="{% url 'auctions:removeWatchlist' watchlist.id %}" class="float-right btn btn-danger btn-sm">Remove Item</a>
+<div class="row">
   <div class="col-lg-2">
     <img src="{{ watchlist.image.url }}" class="image-style" />
   </div>
@@ -16,4 +18,9 @@
   </div>
 </div>
 {% endfor %}
+{% else %}
+  <ul>
+    <li>No Listing is added to watchlist!!!</li>
+  </ul>
+{% endif %}
 {% endblock %}
