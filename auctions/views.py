@@ -87,9 +87,18 @@ def create_listing(request):
 
 def listing_details(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
+    watchlist = Watchlist.objects.get(user=request.user)
+    
+    try:
+        listing_in_watchlist = watchlist.listings.get(id = listing_id)
+        listing_in_watchlist = True
+    except:
+        listing_in_watchlist = False
+    
     return render(request, "auctions/listing-details.html", {
         'listing': listing,
-        'image': listing.image
+        'image': listing.image,
+        'listing_in_watchlist': listing_in_watchlist
     })
 
 def watchlist(request):
@@ -108,7 +117,7 @@ def add_watchlist(request, listing_id):
     if Watchlist.objects.filter(user=request.user).exists():
         watchlist = Watchlist.objects.get(user=request.user)
     else:
-        watchlist = Watchlist(id = lastPk(Watchlist),user = request.user)
+        watchlist = Watchlist(id = lastPK(Watchlist),user = request.user)
         
     watchlist.save()
     listing = Listing.objects.get(id=listing_id)
