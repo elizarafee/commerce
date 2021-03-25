@@ -5,7 +5,6 @@
     <h2>Add A New Listing:</h2>
 
   <form action="{% url 'auctions:createListing' %}" method="POST" enctype="multipart/form-data">
-    <h2>User : {{ user.username }}</h2>
       {% csrf_token %}
       {{ listingForm }}
       <input type="submit" />

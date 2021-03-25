@@ -1,5 +1,5 @@
 {% extends "auctions/layout.html" %} {% block body %}
-<h1>
+<h2>
   Listing Details 
   {% if user.is_authenticated %} 
     {% if listing_in_watchlist %}
@@ -31,8 +31,14 @@
     </a>
     {% endif %} 
   {% endif %}
-</h1>
-<div class="row new-added-listing mb-2">
+</h2>
+
+{% if message %}
+<div class="alert alert-info" role="alert">
+  {{ message }}
+</div>
+{% endif %}
+<div class="row mb-3 p-3 shadow">
   <div class="col-lg-2">
     <img src="{{ image.url }}" class="image-style" />
   </div>
@@ -40,10 +46,18 @@
     <ul>
       <li>Title : {{ listing.title }}</li>
       <li>Description: {{ listing.description }}</li>
-      <li>Price: {{ listing.starting_bid }}</li>
+      <li>Price: £{{ listing.starting_bid }}</li>
       <li>Category: {{ listing.category }}</li>
     </ul>
   </div>
+</div>
+<div class="row ml-1">
+  <form action="{% url 'auctions:bid' listing.id %}" method="POST">
+    {% csrf_token %}
+    <small class="text-muted">You can bid on this product, which have to be more than the current price/bid(£)! </small><br>
+    {{bidForm}}
+    <input type="submit">
+  </form>
 </div>
 
 {% endblock %}

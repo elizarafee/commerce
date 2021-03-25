@@ -4,12 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
-from .forms import ListingForm
+from .forms import ListingForm, BidForm
 
 from .models import User, Listing, Watchlist, Bid
-
-class CreateWatchlistForm(forms.Form):
-    entryTitle = forms.CharField(label="Title:", widget=forms.TextInput(attrs={'placeholder': "Title of the entry's page"}))
 
 def index(request):
     return render(request, 'auctions/index.html', {
@@ -98,6 +95,7 @@ def listing_details(request, listing_id):
     return render(request, "auctions/listing-details.html", {
         'listing': listing,
         'image': listing.image,
+        'bidForm' : BidForm(),
         'listing_in_watchlist': listing_in_watchlist
     })
 
@@ -135,3 +133,29 @@ def remove_watchlist(request, listing_id):
 
     return HttpResponseRedirect(reverse("auctions:watchlist"))
     
+def bid(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+
+    if request.method == "POST":
+        bidForm = BidForm(request.POST)
+
+        if bidForm.is_valid():
+            bid = bidForm.cleaned_data["bid"] 
+            starting_bid = listing.starting_bid
+            if (bid>starting_bid):
+                listing.starting_bid = bid
+                Listing.objects.filter(pk=listing_id).update(starting_bid=bid)
+                message = 'Congratulations! Your bid is added!!!'
+            else:
+                message = 'Sorry! New bid have to be greater than the current bid!!!'
+            
+            return render(request, 'auctions/listing-details.html', {
+                'message': message,
+                'bidForm' : BidForm(),
+                'listing': listing
+            })
+
+    return render(request, "auctions/listing-details.html", {
+        'username' : User.username,
+        'bidForm' : BidForm()
+    })
