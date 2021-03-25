@@ -22,3 +22,8 @@ class Watchlist(models.Model):
     
     def __str__(self):
         return f"{self.user}'s wachlist: {self.listings}"
+
+class Bid(models.Model):
+    listings = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listing_to_bid")
+    bid = models.FloatField(max_length=254)
+

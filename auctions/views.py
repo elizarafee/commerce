@@ -6,7 +6,7 @@ from django.urls import reverse
 from django import forms
 from .forms import ListingForm
 
-from .models import User, Listing, Watchlist
+from .models import User, Listing, Watchlist, Bid
 
 class CreateWatchlistForm(forms.Form):
     entryTitle = forms.CharField(label="Title:", widget=forms.TextInput(attrs={'placeholder': "Title of the entry's page"}))
