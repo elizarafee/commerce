@@ -6,8 +6,27 @@
 
   <form action="{% url 'auctions:createListing' %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      {{ listingForm }}
-      <input type="submit" />
+      Title:
+        <br>  
+        {{ listingForm.title }}
+        <br>
+        Category:  
+        <br>
+        {{ listingForm.description }}
+        <br>
+        Price:  
+        <br>
+        {{ listingForm.starting_bid }}
+        <br>
+        Image:  
+        <br>
+        {{ listingForm.image }}
+        <br>
+        Category:  
+        <br>
+        {{ listingForm.category }}
+        <br>
+      <input class="mt-2" type="submit" />
   </form>
 
 </div>
