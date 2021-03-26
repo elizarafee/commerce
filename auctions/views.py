@@ -100,11 +100,17 @@ def listing_details(request, listing_id):
     })
 
 def watchlist(request):
-    watchlist = Watchlist.objects.get(user = request.user)
+    try:
+        watchlist = Watchlist.objects.get(user=request.user)
+        return render(request, "auctions/watchlist.html", {
+            'watchlists': watchlist.listings.all()
+        })
+    except:
+        return render(request, "auctions/watchlist.html", {
+            'watchlists': False
+        })
 
-    return render(request, "auctions/watchlist.html", {
-        'watchlists': watchlist.listings.all()
-    })
+    
 
 
 def lastPK(obj):

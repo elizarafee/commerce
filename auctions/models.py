@@ -5,7 +5,7 @@ class User(AbstractUser):
     pass
 
 class Listing(models.Model):
-    # listed_by = models.CharField(max_length=50, editable=False)
+    # listed_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listed_by")
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=300)
     starting_bid = models.FloatField(max_length=254)
@@ -14,6 +14,7 @@ class Listing(models.Model):
 
     def __str__(self):
         return f"Title: {self.title}, Description: {self.description}, Price: {self.starting_bid}, Image: {self.image}, Category: {self.category}"
+
 
 
 class Watchlist(models.Model):

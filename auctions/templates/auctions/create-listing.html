@@ -2,6 +2,7 @@
 
 
 {% block body %}
+{% if user.is_authenticated %}
     <h2>Add A New Listing:</h2>
 
   <form action="{% url 'auctions:createListing' %}" method="POST" enctype="multipart/form-data">
@@ -29,6 +30,6 @@
       <input class="mt-2" type="submit" />
   </form>
 
-</div>
+  {% endif %}
 
 {% endblock %}
