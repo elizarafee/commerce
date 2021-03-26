@@ -84,9 +84,9 @@ def create_listing(request):
 
 def listing_details(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
-    watchlist = Watchlist.objects.get(user=request.user)
     
     try:
+        watchlist = Watchlist.objects.get(user=request.user)
         listing_in_watchlist = watchlist.listings.get(id = listing_id)
         listing_in_watchlist = True
     except:

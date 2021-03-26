@@ -52,12 +52,14 @@
   </div>
 </div>
 <div class="row ml-1">
+  {% if user.is_authenticated %}
   <form action="{% url 'auctions:bid' listing.id %}" method="POST">
     {% csrf_token %}
     <small class="text-muted">You can bid on this product, which have to be more than the current price/bid(£)! </small><br>
     {{bidForm}}
     <input type="submit">
   </form>
+  {% endif %}
 </div>
 
 {% endblock %}
