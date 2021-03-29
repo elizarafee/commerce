@@ -1,11 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 class User(AbstractUser):
     pass
 
 class Listing(models.Model):
-    listed_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listed_by")
+    listed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=300)
     starting_bid = models.FloatField(max_length=254)

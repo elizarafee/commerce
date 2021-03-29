@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -7,6 +8,16 @@ from django import forms
 from .forms import ListingForm, BidForm
 
 from .models import User, Listing, Watchlist, Bid
+
+from django.views.generic.edit import CreateView
+
+class ListingCreate(CreateView):
+    model = Listing
+    fields = ['title', 'description', 'starting_bid', 'image', 'category']
+
+    def form_valid(self, form):
+        form.instance.listed_by = self.request.user
+        return super().form_valid(form)
 
 
 def index(request):
@@ -67,12 +78,15 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+@login_required
 def create_listing(request, user):
     if request.method == "POST":
         listingForm = ListingForm(request.POST,  request.FILES)
 
         if listingForm.is_valid():
+            listingForm.instance.listed_by = request.user
             listingForm = listingForm.save()
+            
             return render(request, 'auctions/index.html', {
                 'message': 'New Listing Is Created, and listed at the end of the list!!!',
                 'listingForm': listingForm,

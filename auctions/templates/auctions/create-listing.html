@@ -7,10 +7,6 @@
 
   <form action="{% url 'auctions:createListing' user %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-        User:
-        <br>  
-        {{ listingForm.listed_by }}
-        <br>
         Title:
         <br>  
         {{ listingForm.title }}
