@@ -8,6 +8,7 @@ from .forms import ListingForm, BidForm
 
 from .models import User, Listing, Watchlist, Bid
 
+
 def index(request):
     return render(request, 'auctions/index.html', {
         'listings': Listing.objects.all()
@@ -65,7 +66,8 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-def create_listing(request):
+
+def create_listing(request, user):
     if request.method == "POST":
         listingForm = ListingForm(request.POST,  request.FILES)
 
