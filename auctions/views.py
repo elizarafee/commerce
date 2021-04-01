@@ -9,17 +9,6 @@ from .forms import ListingForm, BidForm
 
 from .models import User, Listing, Watchlist, Bid
 
-from django.views.generic.edit import CreateView
-
-class ListingCreate(CreateView):
-    model = Listing
-    fields = ['title', 'description', 'starting_bid', 'image', 'category']
-
-    def form_valid(self, form):
-        form.instance.listed_by = self.request.user
-        return super().form_valid(form)
-
-
 def index(request):
     return render(request, 'auctions/index.html', {
         'listings': Listing.objects.all()
@@ -126,9 +115,9 @@ def watchlist(request):
             'watchlists': False
         })
 
+    return HttpResponseRedirect(reverse("auctions:index"))
+
     
-
-
 def lastPK(obj):
     length = len(obj.objects.all())+1
     return length
@@ -153,8 +142,12 @@ def remove_watchlist(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
     watchlist.listings.remove(listing)
 
-    return HttpResponseRedirect(reverse("auctions:watchlist"))
+    return render(request, "auctions/watchlist.html",{
+        "watchlists" : watchlist.listings.all(),
+        "remove_watchlist_message": "You have successfully removed item from watchlist!"
+    })
     
+@login_required
 def bid(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
 
@@ -163,11 +156,12 @@ def bid(request, listing_id):
 
         if bidForm.is_valid():
             bid = bidForm.cleaned_data["bid"] 
+            bidForm.instance.bided_by = request.user
             starting_bid = listing.starting_bid
             if (bid>starting_bid):
                 listing.starting_bid = bid
                 Listing.objects.filter(pk=listing_id).update(starting_bid=bid)
-                message = 'Congratulations! Your bid is added!!!'
+                message = 'Congratulations! New Bid is added by you '
             else:
                 message = 'Sorry! New bid have to be greater than the current bid!!!'
             
@@ -180,4 +174,14 @@ def bid(request, listing_id):
     return render(request, "auctions/listing-details.html", {
         'username' : User.username,
         'bidForm' : BidForm()
+    })
+
+def remove_listing(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    Listing.delete(listing)
+
+    return render(request, "auctions/index.html", {
+        'remove_listing_message' : 'You have Successfully closed one of your Listing ',
+        'listing': listing,
+        'listings': Listing.objects.all()
     })

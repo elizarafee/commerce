@@ -4,13 +4,13 @@
   {% if user.is_authenticated %} 
     {% if listing_in_watchlist %}
     <a
-      href="{% url 'auctions:removeWatchlist' listing.id %}"
+      href="{% url 'auctions:remove_watchlist' listing.id %}"
       class="float-right btn btn-outline-danger btn-sm"
-      >Remove Item</a
+      >Remove from Watchlist</a
     >
     {% else %}
     <a
-    href="{% url 'auctions:addWatchlist' listing.id %}"
+    href="{% url 'auctions:add_watchlist' listing.id %}"
     class="float-right btn btn-outline-success btn-sm"
     >Add to Watchlist
     <span>
@@ -35,7 +35,7 @@
 
 {% if message %}
 <div class="alert alert-info" role="alert">
-  {{ message }}
+  {{ message }} {{ bidForm.bidded_By }}
 </div>
 {% endif %}
 <div class="row mb-3 p-3 shadow">

@@ -5,7 +5,7 @@
 {% if user.is_authenticated %}
     <h2>Add A New Listing:</h2>
 
-  <form action="{% url 'auctions:createListing' user %}" method="POST" enctype="multipart/form-data">
+  <form action="{% url 'auctions:create_listing' user %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
         Title:
         <br>  

@@ -26,6 +26,10 @@ class Watchlist(models.Model):
         return f"{self.user}'s wachlist: {self.listings}"
 
 class Bid(models.Model):
+    bided_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     listings = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="listing_to_bid")
     bid = models.FloatField(max_length=254)
+
+    def __str__(self):
+        return f"{self.bidded_by} has added new bid {self.bid} on {self.listings}"
 

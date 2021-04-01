@@ -2,28 +2,34 @@
 <h2>Active Listings</h2>
 
 {% if message %}
-  <div class="alert alert-info" role="alert">
-    {{ message }}
-  </div>
-{% endif %}
+<div class="alert alert-info" role="alert">{{ message }}</div>
+{% endif %} {% if remove_listing_message %}
+<div class="alert alert-info" role="alert">{{ remove_listing_message }} - {{ listing.title }}</div>
+{% endif %} {% if listings %} {% for listing in listings %}
 
-{% if listings %}
-{% for listing in listings %}
-<a href="{% url 'auctions:listingDetails' listing.id %}">
+
   <div class="row mb-4 p-1 shadow">
     <div class="col-lg-2">
       <img src="{{ listing.image.url }}" class="image-style" />
     </div>
-    <div class="col-lg-3">
-      <ul>
-        <li>Listed By : {{ listing.listed_by }}</li>
-        <li>Title : {{ listing.title }}</li>
-        <li>Description: {{ listing.description }}</li>
-        <li>Price: £{{ listing.starting_bid }}</li>
-      </ul>
+    <div class="col-lg-8">
+      {% if listing.listed_by == request.user %}
+      <a
+        href="{% url 'auctions:remove_listing' listing.id %}"
+        class="float-right btn btn-outline-danger btn-sm"
+        >Close Auction</a
+      >
+      {% endif %}
+      <a href="{% url 'auctions:listing_details' listing.id %}">
+        <ul>
+          <li>Listed By : {{ listing.listed_by }}</li>
+          <li>Title : {{ listing.title }}</li>
+          <li>Description: {{ listing.description }}</li>
+          <li>Price: £{{ listing.starting_bid }}</li>
+        </ul>
+      </a>
     </div>
   </div>
-</a>
 {% endfor %} {% else %}
 <ul>
   <li>No available Listing!</li>
