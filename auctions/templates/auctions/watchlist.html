@@ -1,32 +1,25 @@
 {% extends "auctions/layout.html" %} {% block body %}
 
 <h2>Watchlist of <strong>{{ user.username }}</strong></h2>
-{% if remove_watchlist_message %}
-  {{ remove_watchlist_message }}
-{% endif %}
-
-{% if watchlists %} {% for watchlist in watchlists %}
+{% if remove_watchlist_message %} {{ remove_watchlist_message }} {% endif %} {% if watchlists %} {% for watchlist in watchlists %}
 <div class="row p-1 mb-3 shadow">
-  <div class="col-lg-2">
-    <img src="{{ watchlist.image.url }}" class="image-style" />
-  </div>
-  <div class="col-lg-5">
-    <ul>
-      <li>Listed By: {{watchlist.listed_by}}</li>
-      <li>Title: {{watchlist.title}}</li>
-      <li>Description: {{watchlist.description}}</li>
-      <li>Starting Bid: £{{watchlist.starting_bid}}</li>
-      <li>Category: {{watchlist.category}}</li>
-    </ul>
-  </div>
-  <div class="col-lg-5 float-right">
-    <!-- {% if watchlist.listed_by == request.user %}
-    <a
-      href="{% url 'auctions:remove_listing' listing.id %}"
-      class="float-right btn btn-outline-danger btn-sm"
-      >Close Auction</a
+    <div class="col-lg-2">
+        <img src="{{ watchlist.image.url }}" class="image-style" />
+    </div>
+    <div class="col-lg-5">
+        <ul>
+            <li>Listed By: {{watchlist.listed_by}}</li>
+            <li>Title: {{watchlist.title}}</li>
+            <li>Description: {{watchlist.description}}</li>
+            <li>Starting Bid: £{{watchlist.starting_bid}}</li>
+            <li>Category: {{watchlist.category}}</li>
+        </ul>
+    </div>
+    <div class="col-lg-5 float-right">
+        {% if watchlist.listed_by == request.user %}
+        <a href="{% url 'auctions:remove_listing' watchlist.id %}" class="float-right btn btn-outline-danger btn-sm">Close Auction</a
     >
-    {% endif %} -->
+    {% endif %}
     <a
       href="{% url 'auctions:remove_watchlist' watchlist.id %}"
       class="float-right btn btn-danger btn-sm"
