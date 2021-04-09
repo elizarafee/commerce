@@ -155,25 +155,39 @@ def bid(request, listing_id):
         bidForm = BidForm(request.POST)
 
         if bidForm.is_valid():
-            bid = bidForm.cleaned_data["bid"] 
             bidForm.instance.bided_by = request.user
+            bidForm.instance.listings = listing
+            bidForm = bidForm.save()
+
             starting_bid = listing.starting_bid
-            if (bid>starting_bid):
-                listing.starting_bid = bid
-                Listing.objects.filter(pk=listing_id).update(starting_bid=bid)
-                message = 'Congratulations! New Bid is added by you '
+
+            if (bidForm.bid>starting_bid):
+                listing.starting_bid = bidForm.bid
+                Listing.objects.filter(pk=listing_id).update(starting_bid=bidForm.bid)
+                successBidMessage = 'Congratulations! New Bid is added by '
+
+                return render(request, 'auctions/listing-details.html', {
+                    'successBidMessage': successBidMessage,
+                    'bid' : bidForm,
+                    'bidForm' : BidForm(),
+                    'listing': listing,
+                    'image': listing.image
+                })
             else:
-                message = 'Sorry! New bid have to be greater than the current bid!!!'
-            
-            return render(request, 'auctions/listing-details.html', {
-                'message': message,
+                failedBidMessage = 'Sorry! New bid have to be greater than the current bid!!!'
+                return render(request, 'auctions/listing-details.html', {
+                'failedBidMessage': failedBidMessage,
                 'bidForm' : BidForm(),
-                'listing': listing
+                'listing': listing,
+                'image': listing.image
             })
+            
+            
 
     return render(request, "auctions/listing-details.html", {
-        'username' : User.username,
-        'bidForm' : BidForm()
+        'bidForm' : BidForm(),
+        'listing': listing,
+        'image': listing.image,
     })
 
 def remove_listing(request, listing_id):

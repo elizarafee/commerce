@@ -31,5 +31,5 @@ class Bid(models.Model):
     bid = models.FloatField(max_length=254)
 
     def __str__(self):
-        return f"{self.bidded_by} has added new bid {self.bid} on {self.listings}"
+        return f"{self.bided_by} has added new bid {self.bid} on {self.listings}"
 
