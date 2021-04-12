@@ -3,8 +3,8 @@
 
 {% if message %}
 <div class="alert alert-info" role="alert">{{ message }}</div>
-{% endif %} {% if remove_listing_message %}
-<div class="alert alert-info" role="alert">{{ remove_listing_message }} - {{ listing.title }}</div>
+{% endif %} {% if close_listing_message %}
+<div class="alert alert-info" role="alert">{{ close_listing_message }} - {{ listing.title }}</div>
 {% endif %} {% if listings %} {% for listing in listings %}
 
 
@@ -14,7 +14,7 @@
     </div>
     <div class="col-lg-8">
         {% if listing.listed_by == request.user %}
-        <a href="{% url 'auctions:remove_listing' listing.id %}" class="float-right btn btn-outline-danger btn-sm">Close Auction</a
+        <a href="{% url 'auctions:close_listing' listing.id %}" class="float-right btn btn-outline-danger btn-sm">Close Auction</a
       >
       {% endif %}
       <a href="{% url 'auctions:listing_details' listing.id %}">

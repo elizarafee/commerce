@@ -17,7 +17,7 @@
     </div>
     <div class="col-lg-5 float-right">
         {% if watchlist.listed_by == request.user %}
-        <a href="{% url 'auctions:remove_listing' watchlist.id %}" class="float-right btn btn-outline-danger btn-sm">Close Auction</a
+        <a href="{% url 'auctions:close_listing' watchlist.id %}" class="float-right btn btn-outline-danger btn-sm">Close Auction</a
     >
     {% endif %}
     <a

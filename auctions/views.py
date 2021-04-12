@@ -190,12 +190,12 @@ def bid(request, listing_id):
         'image': listing.image,
     })
 
-def remove_listing(request, listing_id):
+def close_listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
     Listing.delete(listing)
 
     return render(request, "auctions/index.html", {
-        'remove_listing_message' : 'You have Successfully closed one of your Listing ',
+        'close_listing_message' : 'You have Successfully closed one of your Listings ',
         'listing': listing,
         'listings': Listing.objects.all()
     })

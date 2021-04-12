@@ -49,6 +49,12 @@
             <li>Category: {{ listing.category }}</li>
         </ul>
     </div>
+    <div class="col">
+        {% if listing.listed_by == request.user %}
+        <a href="{% url 'auctions:close_listing' listing.id %}" class="float-right btn btn-outline-danger btn-sm">Close Auction</a
+          >
+          {% endif %}
+    </div>
 </div>
 <div class="row ml-1">
     {% if user.is_authenticated %}
