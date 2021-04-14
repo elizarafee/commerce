@@ -5,9 +5,24 @@
 <div class="alert alert-info" role="alert">{{ message }}</div>
 {% endif %} {% if close_listing_message %}
 <div class="alert alert-info" role="alert">{{ close_listing_message }} - {{ listing.title }}</div>
-{% endif %} {% if listings %} {% for listing in listings %}
-
-
+{% endif %} {% if closed_listings %}
+<h3>Closed Listing:</h3>
+{% for closed_listing in closed_listings %}
+<div class="row mb-4 p-1 shadow alert-danger">
+    <div class="col-lg-2">
+        <img src="{{ closed_listing_image.url }}" class="image-style" />
+    </div>
+    <div class="col-lg-8">
+        <ul>
+            <li>Listed By : {{ closed_listing.closed_listing.listed_by }}</li>
+            <li>Title : {{ closed_listing.closed_listing.title }}</li>
+            <li>Description: {{ closed_listing.closed_listing.description }}</li>
+            <li>Price: £{{ closed_listing.closed_listing.starting_bid }}</li>
+            <li>Auction Winner: {{ auction_winner }}</li>
+        </ul>
+    </div>
+</div>
+{% endfor %} {% endif %} {% if listings %} {% for listing in listings %}
 <div class="row mb-4 p-1 shadow">
     <div class="col-lg-2">
         <img src="{{ listing.image.url }}" class="image-style" />
@@ -16,15 +31,15 @@
         {% if listing.listed_by == request.user %}
         <a href="{% url 'auctions:close_listing' listing.id %}" class="float-right btn btn-outline-danger btn-sm">Close Auction</a
       >
-      {% endif %}
-      <a href="{% url 'auctions:listing_details' listing.id %}">
-        <ul>
-          <li>Listed By : {{ listing.listed_by }}</li>
-          <li>Title : {{ listing.title }}</li>
-          <li>Description: {{ listing.description }}</li>
-          <li>Price: £{{ listing.starting_bid }}</li>
-        </ul>
-      </a>
+        {% endif %}
+        <a href="{% url 'auctions:listing_details' listing.id %}">
+            <ul>
+                <li>Listed By : {{ listing.listed_by }}</li>
+                <li>Title : {{ listing.title }}</li>
+                <li>Description: {{ listing.description }}</li>
+                <li>Price: £{{ listing.starting_bid }}</li>
+            </ul>
+        </a>
     </div>
 </div>
 {% endfor %} {% else %}

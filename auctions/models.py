@@ -33,3 +33,10 @@ class Bid(models.Model):
     def __str__(self):
         return f"{self.bided_by} has added new bid {self.bid} on {self.listings}"
 
+class ClosedListing(models.Model):
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    closed_listing = models.ForeignKey(Listing, on_delete=models.CASCADE,related_name="closed_listing")
+    auction_winner = models.ForeignKey(Bid, on_delete=models.CASCADE, default=None , related_name="auction_winner")
+    
+    def __str__(self):
+        return f"{self.user} has closed the listing - {self.closed_listing} & the auction winner is {self.auction_winner}"

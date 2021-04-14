@@ -7,7 +7,7 @@ from django.urls import reverse
 from django import forms
 from .forms import ListingForm, BidForm
 
-from .models import User, Listing, Watchlist, Bid
+from .models import User, Listing, Watchlist, Bid, ClosedListing
 
 def index(request):
     return render(request, 'auctions/index.html', {
@@ -190,12 +190,63 @@ def bid(request, listing_id):
         'image': listing.image,
     })
 
+# def close_listing(request, listing_id):
+#     listing = Listing.objects.get(id=listing_id)
+#     Listing.delete(listing)
+
+#     return render(request, "auctions/index.html", {
+#         'close_listing_message' : 'You have Successfully closed one of your Listings ',
+#         'listing': listing,
+#         'listings': Listing.objects.all()
+#     })
+
+@login_required
 def close_listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
-    Listing.delete(listing)
+    closed_listing_image = listing.image
 
+    if Bid.objects.filter(listings=listing).exists():
+        bid = Bid.objects.filter(listings=listing)
+        auction_winner = bid.order_by('bided_by')[0]
+        closedlisting = ClosedListing(id = lastPK(ClosedListing), closed_listing= listing, auction_winner= auction_winner)
+        closedlisting.save()
+
+        return render(request, 'auctions/index.html', {
+            'close_listing_message' : 'You have Successfully closed one of your Listings ',
+            'listing': listing,
+            'listings': Listing.objects.all(),
+            'closed_listing_image': closed_listing_image,
+            'auction_winner': auction_winner,
+            'closed_listings': ClosedListing.objects.all()    
+        })
+    
     return render(request, "auctions/index.html", {
-        'close_listing_message' : 'You have Successfully closed one of your Listings ',
-        'listing': listing,
         'listings': Listing.objects.all()
     })
+
+    # else:
+    #     closedlisting = ClosedListing(id = lastPK(ClosedListing), closed_listing= listing)
+
+            # closedlistingform.instance.user = request.user
+            # closedlistingform.instance.closed_listing = listing
+            # if Bid.objects.filter(listings=listing).exists():
+            #     bid = Bid.objects.filter(listings=listing)
+            #     auction_winner = bid.bided_by
+            #     closedlistingform.instance.auction_winner = auction_winner
+            # else:
+            #     closedlistingform.instance.auction_winner = None
+            # closedlistingform = closedlistingform.save()
+
+
+
+
+
+        # if listing.listed_by==request.user:
+        #     if Bid.objects.filter(listings=listing).exists():
+        #         bid = Bid.objects.filter(listings=listing)
+        #         auction_winner = bid.bided_by
+        #         close_listing = ClosedListing(user = request.user, closed_listing = listing, auction_winner = auction_winner)
+        #         # close_listing.save()
+        #     else:
+        #         close_listing = ClosedListing(user = request.user, closed_listing = listing)
+        #         # close_listing.save()

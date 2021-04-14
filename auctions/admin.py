@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Listing, Watchlist, Bid
+from .models import Listing, Watchlist, Bid, ClosedListing
 
 class WatchlistAdmin(admin.ModelAdmin):
    filter_horizontal = ()
@@ -8,3 +8,4 @@ class WatchlistAdmin(admin.ModelAdmin):
 admin.site.register(Listing)
 admin.site.register(Watchlist, WatchlistAdmin)
 admin.site.register(Bid)
+admin.site.register(ClosedListing)
